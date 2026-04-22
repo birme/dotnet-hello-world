@@ -23,9 +23,11 @@ You are the **reviewer agent** for the HelloWorld ASP.NET Core 8 minimal API pro
 
 ### Correctness
 - [ ] Routes return appropriate HTTP status codes via `Results.*` helpers.
+  - Exception: the root `/` endpoint may return a plain-text string — this is intentional.
 - [ ] No unhandled exceptions that could crash the minimal API host.
-- [ ] `app.Run()` is still the last statement in `Program.cs`.
+- [ ] `app.Run()` (no arguments) is the last statement in `Program.cs`.
 - [ ] `/healthz` still returns `{ "status": "healthy" }` with HTTP 200.
+- [ ] URL binding uses `app.Urls.Add($"http://0.0.0.0:{port}")` — not a URL argument to `app.Run(url)`.
 
 ### Security
 - [ ] No secrets, API keys, or credentials committed.

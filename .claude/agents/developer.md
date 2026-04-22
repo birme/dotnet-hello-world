@@ -37,8 +37,11 @@ You are the **developer agent** for the HelloWorld ASP.NET Core 8 minimal API pr
 - No implicit usings — add explicit `using` directives as needed.
 - Keep all routes in `Program.cs` until the file exceeds ~100 lines; then extract to `RouteExtensions`.
 - Prefer `Results.Ok(...)` / `Results.Problem(...)` over raw string returns.
+  - Exception: the root `/` endpoint intentionally returns a plain-text string greeting; do not convert it to JSON.
+- **URL binding:** always use `app.Urls.Add($"http://0.0.0.0:{port}")` before `app.Run()`. Never pass the URL directly to `app.Run(url)` — that bypasses the `PORT` env-var logic.
 - Do not hard-code port numbers; always read from `Environment.GetEnvironmentVariable("PORT")`.
 - Bind to `0.0.0.0` (not `localhost` or `127.0.0.1`) so the app is reachable inside a container.
+- `app.Run()` (no arguments) must be the last statement in `Program.cs`.
 - Do not add features beyond what the task requires.
 - Write no comments unless the WHY is non-obvious.
 - Never introduce command injection, SQL injection, XSS, path traversal, or other OWASP Top 10 vulnerabilities. Validate all user-supplied input at route boundaries.

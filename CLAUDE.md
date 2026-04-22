@@ -61,9 +61,12 @@ dotnet build -warnaserror
 - Minimal API style — keep routes in `Program.cs` until the file exceeds ~100 lines, then split into `RouteExtensions` classes
 - No implicit usings — add `using` statements explicitly if needed (project does not set `<ImplicitUsings>enable</ImplicitUsings>`)
 - Use `Results.Ok(...)` / `Results.Problem(...)` for structured responses rather than raw strings where possible
+  - Exception: the root `/` endpoint intentionally returns a plain-text string greeting, not a JSON object
 - Health check at `/healthz` must always return `{ status: "healthy" }` with HTTP 200; do not remove or rename it
 - Environment-driven configuration via `Environment.GetEnvironmentVariable` — do not hard-code port or external URLs
+- **URL binding:** use `app.Urls.Add($"http://0.0.0.0:{port}")` before `app.Run()` — do **not** pass the URL directly to `app.Run(url)`, as that bypasses the env-var port logic
 - Always bind to `0.0.0.0` (not `localhost`) so the app is reachable from outside the container
+- `app.Run()` (no arguments) must always be the last statement in `Program.cs`
 
 ## Docker Notes
 
