@@ -49,6 +49,9 @@ No test project exists yet. When adding tests:
 # Format code (requires .editorconfig or default rules)
 dotnet format
 
+# Verify formatting without modifying files (CI-safe)
+dotnet format --verify-no-changes
+
 # Analyze for warnings/errors
 dotnet build -warnaserror
 ```
@@ -60,6 +63,7 @@ dotnet build -warnaserror
 - Use `Results.Ok(...)` / `Results.Problem(...)` for structured responses rather than raw strings where possible
 - Health check at `/healthz` must always return `{ status: "healthy" }` with HTTP 200; do not remove or rename it
 - Environment-driven configuration via `Environment.GetEnvironmentVariable` — do not hard-code port or external URLs
+- Always bind to `0.0.0.0` (not `localhost`) so the app is reachable from outside the container
 
 ## Docker Notes
 

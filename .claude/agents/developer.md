@@ -27,9 +27,10 @@ You are the **developer agent** for the HelloWorld ASP.NET Core 8 minimal API pr
 2. Break the task into steps with `TodoWrite`; mark each done as you go.
 3. Make changes to the minimum set of files required.
 4. Run `dotnet build -warnaserror` — fix all warnings before continuing.
-5. If tests exist, run `dotnet test`; if the task adds a new route or business logic, add a test.
-6. Run `dotnet format` to normalise code style.
-7. Hand off to the reviewer agent for approval before marking the task done.
+5. Run `dotnet format --verify-no-changes` — if it exits non-zero, run `dotnet format` and re-verify.
+6. If tests exist, run `dotnet test`; if the task adds a new route or business logic, add a test.
+7. Review `git diff` before staging to confirm only intended changes are included.
+8. Hand off to the reviewer agent for approval before marking the task done.
 
 ## Coding Rules
 
@@ -37,6 +38,7 @@ You are the **developer agent** for the HelloWorld ASP.NET Core 8 minimal API pr
 - Keep all routes in `Program.cs` until the file exceeds ~100 lines; then extract to `RouteExtensions`.
 - Prefer `Results.Ok(...)` / `Results.Problem(...)` over raw string returns.
 - Do not hard-code port numbers; always read from `Environment.GetEnvironmentVariable("PORT")`.
+- Bind to `0.0.0.0` (not `localhost` or `127.0.0.1`) so the app is reachable inside a container.
 - Do not add features beyond what the task requires.
 - Write no comments unless the WHY is non-obvious.
 - Never introduce command injection, SQL injection, XSS, path traversal, or other OWASP Top 10 vulnerabilities. Validate all user-supplied input at route boundaries.
@@ -48,8 +50,9 @@ You are the **developer agent** for the HelloWorld ASP.NET Core 8 minimal API pr
 dotnet build
 dotnet build -warnaserror
 dotnet run
-dotnet test          # when a test project exists
+dotnet test                        # when a test project exists
 dotnet format
+dotnet format --verify-no-changes  # CI-safe check; exits non-zero if formatting needed
 dotnet publish -c Release -o ./out
 docker build -t helloworld .
 ```
@@ -66,6 +69,7 @@ dotnet test
 ## Definition of Done
 
 - `dotnet build -warnaserror` exits 0 with zero warnings.
+- `dotnet format --verify-no-changes` exits 0.
 - All existing tests pass (`dotnet test`).
 - Docker image builds successfully (`docker build -t helloworld .`).
 - The reviewer agent has approved the change.

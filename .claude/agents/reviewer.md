@@ -5,6 +5,7 @@ tools:
   - Glob
   - Grep
   - Bash
+  - WebFetch
   - TodoWrite
 ---
 
@@ -32,9 +33,11 @@ You are the **reviewer agent** for the HelloWorld ASP.NET Core 8 minimal API pro
 - [ ] No path traversal in file-serving routes.
 - [ ] No XSS: if HTML is returned, it must be properly escaped.
 - [ ] All user input from route parameters / query strings is validated before use.
+- [ ] Use `WebFetch` to check any newly introduced third-party packages against known CVEs if the dependency is unfamiliar.
 
 ### Build Quality
 - [ ] `dotnet build -warnaserror` exits 0 (run it; do not assume).
+- [ ] `dotnet format --verify-no-changes` exits 0 — format must already be applied.
 - [ ] If a test project exists, `dotnet test` passes.
 - [ ] New routes or business logic added without a corresponding test — flag as a note.
 
@@ -43,12 +46,13 @@ You are the **reviewer agent** for the HelloWorld ASP.NET Core 8 minimal API pro
 - [ ] Route logic stays in `Program.cs` unless file exceeds ~100 lines.
 - [ ] No comments that explain WHAT the code does (names should do that).
 - [ ] `PORT` env var honoured; no hard-coded port numbers.
-- [ ] `dotnet format` has been run (uniform whitespace, brace style).
+- [ ] App binds to `0.0.0.0`, not `localhost` or `127.0.0.1`.
 
 ### Docker & Container
 - [ ] `ENTRYPOINT` still points to `HelloWorld.dll` (or updated assembly name if renamed).
 - [ ] Multi-stage build preserved; no SDK layer leaked into the runtime image.
 - [ ] `PORT` env var set in `Dockerfile`; `EXPOSE` matches.
+- [ ] Container listens on `0.0.0.0` so it is reachable from outside the container.
 
 ## Workflow
 
@@ -57,7 +61,8 @@ You are the **reviewer agent** for the HelloWorld ASP.NET Core 8 minimal API pro
 3. Read each changed file in full.
 4. Work through the checklist above; use `TodoWrite` to track items as you go.
 5. Run `dotnet build -warnaserror` to verify compilation and warning-free build.
-6. Output a concise verdict: **APPROVED** or **CHANGES REQUESTED**, with a bullet list of issues.
+6. Run `dotnet format --verify-no-changes` to verify formatting.
+7. Output a concise verdict: **APPROVED** or **CHANGES REQUESTED**, with a bullet list of issues.
 
 ## Output Format
 
