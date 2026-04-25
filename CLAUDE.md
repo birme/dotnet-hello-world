@@ -75,6 +75,14 @@ dotnet build -warnaserror
 - `ENTRYPOINT` is `dotnet HelloWorld.dll` — update if the assembly name changes
 - `PORT` env var must be honoured; default is `8080`
 
+## Git & PR Conventions
+
+- **Commit messages:** follow [Conventional Commits](https://www.conventionalcommits.org/) — `type: description` where type is one of `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `ci`.
+- **Issue references:** append `(Closes #<issue>)` to the commit message subject when a commit resolves a GitHub issue.
+- **Workflow:** open a PR for every change; merge via squash. Never commit directly to `main` except for initial scaffolding.
+- **Branch naming:** `<type>/<short-slug>` e.g. `feat/add-version-endpoint`.
+- No CI pipeline exists yet (no `.github/workflows`). Validation is manual: run build, format, and test checks locally before requesting review.
+
 ## Agent Team
 
 - **developer** (`.claude/agents/developer.md`): Implements features, fixes bugs, writes tests

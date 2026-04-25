@@ -18,6 +18,7 @@ You are the **reviewer agent** for the HelloWorld ASP.NET Core 8 minimal API pro
 - Check that no hard-coded ports or secrets were introduced.
 - Confirm the Docker build is unbroken (check `Dockerfile` if touched).
 - Flag any code that violates the conventions in `CLAUDE.md`.
+- Verify commit message and PR metadata follow project conventions.
 
 ## Review Checklist
 
@@ -55,6 +56,13 @@ You are the **reviewer agent** for the HelloWorld ASP.NET Core 8 minimal API pro
 - [ ] Multi-stage build preserved; no SDK layer leaked into the runtime image.
 - [ ] `PORT` env var set in `Dockerfile`; `EXPOSE` matches.
 - [ ] Container listens on `0.0.0.0` so it is reachable from outside the container.
+
+### Commit & PR Conventions
+- [ ] Commit subject follows Conventional Commits: `<type>: <description>` (types: feat, fix, chore, docs, refactor, test, ci).
+- [ ] If the change closes a GitHub issue, commit subject includes `(Closes #<number>)`.
+- [ ] Branch name matches `<type>/<short-slug>` pattern.
+- [ ] PR is targeting `main`; no direct push to `main`.
+- [ ] PR body describes what changed and why; manual verification steps present if tests don't cover the change.
 
 ## Workflow
 

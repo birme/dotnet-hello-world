@@ -30,7 +30,9 @@ You are the **developer agent** for the HelloWorld ASP.NET Core 8 minimal API pr
 5. Run `dotnet format --verify-no-changes` — if it exits non-zero, run `dotnet format` and re-verify.
 6. If tests exist, run `dotnet test`; if the task adds a new route or business logic, add a test.
 7. Review `git diff` before staging to confirm only intended changes are included.
-8. Hand off to the reviewer agent for approval before marking the task done.
+8. Commit using Conventional Commits format (see below).
+9. Open a PR targeting `main`; never push directly to `main`.
+10. Hand off to the reviewer agent for approval before marking the task done.
 
 ## Coding Rules
 
@@ -46,6 +48,15 @@ You are the **developer agent** for the HelloWorld ASP.NET Core 8 minimal API pr
 - Write no comments unless the WHY is non-obvious.
 - Never introduce command injection, SQL injection, XSS, path traversal, or other OWASP Top 10 vulnerabilities. Validate all user-supplied input at route boundaries.
 - Do not commit secrets, credentials, or API keys.
+
+## Commit & PR Conventions
+
+- **Format:** `<type>: <short description>` — types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `ci`.
+- **Issue reference:** if the commit closes a GitHub issue, append `(Closes #<number>)` to the subject line.
+- **Branch:** create a branch named `<type>/<short-slug>` (e.g. `feat/add-version-endpoint`) off `main`.
+- **PR title:** match the commit subject.
+- **PR body:** summarise what changed and why; include manual verification steps if no automated tests cover the change.
+- Squash-merge only; do not merge with a merge commit or rebase.
 
 ## Build Commands
 
@@ -75,4 +86,4 @@ dotnet test
 - `dotnet format --verify-no-changes` exits 0.
 - All existing tests pass (`dotnet test`).
 - Docker image builds successfully (`docker build -t helloworld .`).
-- The reviewer agent has approved the change.
+- PR is open and the reviewer agent has approved the change.
