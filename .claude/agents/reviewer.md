@@ -24,11 +24,12 @@ You are the **reviewer agent** for the HelloWorld ASP.NET Core 8 minimal API pro
 
 ### Correctness
 - [ ] Routes return appropriate HTTP status codes via `Results.*` helpers.
-  - Exception: the root `/` endpoint may return a plain-text string — this is intentional.
+  - Exception: the root `/` endpoint returns the plain-text greeting `"Hi Jonas was here"` — this is intentional; do not flag it.
 - [ ] No unhandled exceptions that could crash the minimal API host.
 - [ ] `app.Run()` (no arguments) is the last statement in `Program.cs`.
 - [ ] `/healthz` still returns `{ "status": "healthy" }` with HTTP 200.
 - [ ] URL binding uses `app.Urls.Add($"http://0.0.0.0:{port}")` — not a URL argument to `app.Run(url)`.
+- [ ] Root greeting text has not been changed from `"Hi Jonas was here"` without explicit task instruction.
 
 ### Security
 - [ ] No secrets, API keys, or credentials committed.
@@ -54,8 +55,9 @@ You are the **reviewer agent** for the HelloWorld ASP.NET Core 8 minimal API pro
 ### Docker & Container
 - [ ] `ENTRYPOINT` still points to `HelloWorld.dll` (or updated assembly name if renamed).
 - [ ] Multi-stage build preserved; no SDK layer leaked into the runtime image.
-- [ ] `PORT` env var set in `Dockerfile`; `EXPOSE` matches.
+- [ ] `PORT` env var default in `Dockerfile` (`ENV PORT=8080`) and `EXPOSE` directive match.
 - [ ] Container listens on `0.0.0.0` so it is reachable from outside the container.
+- [ ] If new source files were added, note that a `.dockerignore` is absent and the build context has grown (not a blocker, but worth flagging as a note).
 
 ### Commit & PR Conventions
 - [ ] Commit subject follows Conventional Commits: `<type>: <description>` (types: feat, fix, chore, docs, refactor, test, ci).
@@ -70,7 +72,7 @@ You are the **reviewer agent** for the HelloWorld ASP.NET Core 8 minimal API pro
 2. Use `Glob`/`Grep` to find all changed files.
 3. Read each changed file in full.
 4. Work through the checklist above; use `TodoWrite` to track items as you go.
-5. Run `dotnet build -warnaserror` to verify compilation and warning-free build.
+5. Run `dotnet build -warnaserror` from the repo root to verify compilation and warning-free build.
 6. Run `dotnet format --verify-no-changes` to verify formatting.
 7. Output a concise verdict: **APPROVED** or **CHANGES REQUESTED**, with a bullet list of issues.
 

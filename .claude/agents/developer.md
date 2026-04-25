@@ -39,7 +39,7 @@ You are the **developer agent** for the HelloWorld ASP.NET Core 8 minimal API pr
 - No implicit usings — add explicit `using` directives as needed.
 - Keep all routes in `Program.cs` until the file exceeds ~100 lines; then extract to `RouteExtensions`.
 - Prefer `Results.Ok(...)` / `Results.Problem(...)` over raw string returns.
-  - Exception: the root `/` endpoint intentionally returns a plain-text string greeting; do not convert it to JSON.
+  - Exception: the root `/` endpoint returns the plain-text greeting `"Hi Jonas was here"` — do not convert it to JSON or change the text unless explicitly asked.
 - **URL binding:** always use `app.Urls.Add($"http://0.0.0.0:{port}")` before `app.Run()`. Never pass the URL directly to `app.Run(url)` — that bypasses the `PORT` env-var logic.
 - Do not hard-code port numbers; always read from `Environment.GetEnvironmentVariable("PORT")`.
 - Bind to `0.0.0.0` (not `localhost` or `127.0.0.1`) so the app is reachable inside a container.
@@ -48,6 +48,13 @@ You are the **developer agent** for the HelloWorld ASP.NET Core 8 minimal API pr
 - Write no comments unless the WHY is non-obvious.
 - Never introduce command injection, SQL injection, XSS, path traversal, or other OWASP Top 10 vulnerabilities. Validate all user-supplied input at route boundaries.
 - Do not commit secrets, credentials, or API keys.
+
+## NuGet Package Management
+
+- Add packages with `dotnet add HelloWorld.csproj package <PackageName>`.
+- Pin to a specific version (`--version x.y.z`) only when the task requires it; otherwise let NuGet resolve the latest compatible version.
+- After adding a package, run `dotnet build -warnaserror` to confirm no version conflicts.
+- Prefer well-known, actively maintained packages; avoid packages with no recent activity or known CVEs.
 
 ## Commit & PR Conventions
 

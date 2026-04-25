@@ -61,7 +61,7 @@ dotnet build -warnaserror
 - Minimal API style — keep routes in `Program.cs` until the file exceeds ~100 lines, then split into `RouteExtensions` classes
 - No implicit usings — add `using` statements explicitly if needed (project does not set `<ImplicitUsings>enable</ImplicitUsings>`)
 - Use `Results.Ok(...)` / `Results.Problem(...)` for structured responses rather than raw strings where possible
-  - Exception: the root `/` endpoint intentionally returns a plain-text string greeting, not a JSON object
+  - Exception: the root `/` endpoint intentionally returns a plain-text string greeting (`"Hi Jonas was here"`), not a JSON object; do not convert it to JSON or change the text without explicit instruction
 - Health check at `/healthz` must always return `{ status: "healthy" }` with HTTP 200; do not remove or rename it
 - Environment-driven configuration via `Environment.GetEnvironmentVariable` — do not hard-code port or external URLs
 - **URL binding:** use `app.Urls.Add($"http://0.0.0.0:{port}")` before `app.Run()` — do **not** pass the URL directly to `app.Run(url)`, as that bypasses the env-var port logic
@@ -73,7 +73,8 @@ dotnet build -warnaserror
 - Base image: `mcr.microsoft.com/dotnet/aspnet:8.0` (runtime-only, smaller)
 - Build image: `mcr.microsoft.com/dotnet/sdk:8.0`
 - `ENTRYPOINT` is `dotnet HelloWorld.dll` — update if the assembly name changes
-- `PORT` env var must be honoured; default is `8080`
+- `PORT` env var must be honoured; default is `8080`; `EXPOSE` directive must match this default
+- No `.dockerignore` exists yet — the build context currently includes `.git/`, `.claude/`, etc. Add one when Docker build times become a concern
 
 ## Git & PR Conventions
 
